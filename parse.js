@@ -18,41 +18,19 @@ function getAtChar(str){
 }
 function parse(url) {
 	var str = "";
+	var rs = "";
 	if(url.indexOf('!') > -1){
 		var token = url.split("!");
 		token.forEach(e => {
-			if(e.length > 3){
-				rs += str + " \n";
-				switch(getChar(e)){
-					  case 'm':
-						str = "matrix";
-						break;
-					  case 'f':
-						str = "float";
-						break;
-					  case 'd':
-						str = "double";
-						break;
-					  case 'i':
-						str = "integer";
-						break;
-					  case 'b':
-						str = "boolean";
-						break;
-					  case 'e':
-						str = "enum";
-						break;
-					  case 's':
-						str = "string";
-						break;
-					  case 'u':
-						str = "unsigned int";
-						break;
-					  default :
-						str = "unknow ";
-						break;
-				  }
-				  str += " :"+ e.substr(getAtChar(e) + 1);
+			if(e.length > 2){
+				var k = getChar(e);
+				var i = e.indexOf(k);
+				if(i > 0){
+					var f = e.substr(0, i);
+					var l = e.substr(i + 1);
+					var x = getType(k);
+					str += x + ":" + l + "\n";
+				}
 			}
 		})
 		
@@ -63,43 +41,36 @@ function parse(url) {
 		  ch.forEach(e => {
 			  if(e >= 'a' && e <= 'z'){
 				  rs += str + "\n";
-				  switch(e){
-					  case 'm':
-						str = "matrix";
-						break;
-					  case 'f':
-						str = "float";
-						break;
-					  case 'd':
-						str = "double";
-						break;
-					  case 'i':
-						str = "integer";
-						break;
-					  case 'b':
-						str = "boolean";
-						break;
-					  case 'e':
-						str = "enum";
-						break;
-					  case 's':
-						str = "string";
-						break;
-					  case 'u':
-						str = "unsigned int";
-						break;
-					  default :
-						str = "unknow " + e;
-						break;
-				  }
+				  str = getType(e);
 				  str += " :";
 			  }else{
 				str = str + e;		  
 			  }
 		  });
-	}
-	
+	}	
 	rs += str;
-	console.log(rs);
-  
+	console.log(rs);  
+}
+
+function getType(e){
+	switch(e){
+	  case 'm':
+		return "matrix";
+	  case 'f':
+		return "float";
+	  case 'd':
+		return "double";
+	  case 'i':
+		return "integer";
+	  case 'b':
+		return "boolean";
+	  case 'e':
+		return "enum";
+	  case 's':
+		return "string";
+	  case 'u':
+		return "unsigned int";
+	  default :
+		return "unknow " + e;
+	}
 }
